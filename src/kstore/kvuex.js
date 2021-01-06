@@ -13,13 +13,16 @@ class Store {
     this._actions = options.actions || {}
 
     const computed = {}
-    const store = this
+    const store = this // this指向必须获取，直接使用this则指向不正确
     store.getters = {}
 
     for (let [key, fn] of Object.entries(options.getters)) {
+      // 获取用户定义的getter
       computed[key] = function () {
+        // 转换为computed可以使用无参数形式
         return fn(store.state, store.getters)
       }
+      // 为getters定义只读属性
       Object.defineProperty(store.getters, key, {
         get: function () {
           return store._vm[key]
@@ -32,6 +35,7 @@ class Store {
     // Vue.util.defineReactive(this, 'state', {})
     this._vm = new Vue({
       data: {
+        // 加两个$, Vue不做代理
         $$state: options.state,
       },
       computed
@@ -45,7 +49,7 @@ class Store {
     // 1.动态设置getters属性
     // 2.响应式
     // 附加：能否利用上vue computed
-    // this.getters = {}
+    // computed是个对象，key应该是没有参数的函数；
   }
 
   // 给用户暴露接口
