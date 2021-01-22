@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue3-07-reactive</title>
+  <script src="./06-reactive.js"></script>
+</head>
+<body>
+  <div id='app'>
+    <p id="p1"></p>
+  </div>
+  <script>
+    const data = reactive({
+      title: 'vue3-响应式'
+    })
+
+    // 组件更新函数
+    effect(() => {
+      // 更新标题
+      p1.textContent = data.title
+
+      // vue3
+      vnode = render(h) 
+      patch(oldvnode, vnode)
+      
+
+    })
+    setTimeout(() => {
+      data.title = '修改后的标题'
+    }, 1500);
+  </script>
+</body>
+</html>
